@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: failedpod
+spec:
+  restartPolicy: Never
+  containers:
+  - name: failcontainer
+    image: ubuntu:latest
+    command: ['sh', '-c', 'abc']

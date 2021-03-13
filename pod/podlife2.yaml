@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: succeededpod
+spec:
+  restartPolicy: Never
+  containers:
+  - name: succeedcontainer
+    image: ubuntu:latest
+    command: ['sh', '-c', 'echo "Hello, Kubernetes!" && sleep 20']
