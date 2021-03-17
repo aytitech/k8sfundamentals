@@ -3,7 +3,7 @@ kind: Pod
 metadata:
   name: firstpod
   labels:
-    app: front-end
+    app: frontend
 spec:
   containers:
   - name: nginx
