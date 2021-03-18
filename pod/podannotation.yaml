@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: annotationpod
+  annotations:
+    owner: "Ozgur OZTURK"
+    notification-email: "admin@k8sfundamentals.com"
+    releasedate: "01.01.2021"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+spec:
+  containers:
+  - name: annotationcontainer
+    image: nginx
+    ports:
+    - containerPort: 80
