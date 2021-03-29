@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ozgurpod
+  labels:
+    app: rs
+spec:
+  containers:
+  - name: nginx
+    image: nginx

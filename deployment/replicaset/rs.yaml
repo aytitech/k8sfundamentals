@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: firstrs
+  labels:
+    app: rs
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: rs
+  template:
+    metadata:
+      labels:
+        app: rs
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
