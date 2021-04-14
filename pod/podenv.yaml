@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: envpod
+  labels:
+    app: frontend
+spec:
+  containers:
+  - name: envpod
+    image: ozgurozturknet/env:latest
+    ports:
+    - containerPort: 80
+    env:
+      - name: USER
+        value: "Ozgur"
+      - name: database
+        value: "testdb.example.com"

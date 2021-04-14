@@ -1,2 +1,2 @@
-# Labels ve Selectors
-**labels ve selector** konusuyla ilgili dosyalara buradan erişebilirsiniz.
+# Service
+**Service** konusuyla ilgili dosyalara buradan erişebilirsiniz.

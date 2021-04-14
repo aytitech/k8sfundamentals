@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    test: requestlimit
+  name: requestlimit
+spec:
+  containers:
+  - name: requestlimit
+    image: ozgurozturknet/stress
+    resources:
+      requests:
+        memory: "64M"
+        cpu: "250m"
+      limits:
+        memory: "256M"
+        cpu: "0.5"

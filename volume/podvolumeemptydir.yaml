@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: emptydir
+spec:
+  containers:
+  - name: frontend
+    image: ozgurozturknet/k8s:blue
+    ports:
+    - containerPort: 80
+    livenessProbe:
+      httpGet:
+        path: /healthcheck
+        port: 80
+      initialDelaySeconds: 5
+      periodSeconds: 5
+    volumeMounts:
+    - name: cache-vol
+      mountPath: /cache
+  - name: sidecar
+    image: busybox
+    command: ["/bin/sh"]
+    args: ["-c", "sleep 3600"]
+    volumeMounts:
+    - name: cache-vol
+      mountPath: /tmp/log
+  volumes:
+  - name: cache-vol
+    emptyDir: {}
