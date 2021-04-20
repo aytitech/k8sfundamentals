@@ -13,6 +13,7 @@ You can find a list of useful tools here.
 ## Various
 
 * Footloose | Vagrant but with containers | https://github.com/weaveworks/footloose
+* Kured | (KUbernetes REboot Daemon) is a daemonset that performs safe automatic node reboots when the need to do so is indicated by the package management system of the underlying OS. | https://github.com/weaveworks/kured
 
 ## CLI
 
