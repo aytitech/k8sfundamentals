@@ -9,7 +9,4 @@ spec:
   resources:
     requests:
       storage: 5Gi
-  storageClassName: ""
-  selector:
-    matchLabels:
-      app: mysql
+  storageClassName: "standarddisk"
