@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: ozgurozturknet/k8s
+        image: ozgurozturknet/k8s:latest
         ports:
         - containerPort: 80
 ---
