@@ -1,0 +1,189 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-test-claim
+  namespace: test
+  labels:
+    tier: test
+    app: mysql
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: wp-test-claim
+  namespace: test
+  labels:
+    tier: test
+    app: wordpress
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-deployment
+  namespace: test
+  labels:
+    tier: test
+    app: mysql
+spec:
+  selector:
+    matchLabels:
+      tier: test
+      app: mysql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        tier: test
+        app: mysql
+    spec:
+      containers:
+      - name: mysql-test
+        image: mysql:5.6
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-test-secret
+              key: MYSQL_ROOT_PASSWORD
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: mysql-test-secret
+              key: MYSQL_USER
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-test-secret
+              key: MYSQL_PASSWORD
+        - name: MYSQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: mysql-test-secret
+              key: MYSQL_DATABASE      
+        resources:
+          limits:
+            memory: "1Gi"
+            cpu: "250m"
+        ports:
+          - containerPort: 3306
+            name: mysql-test-port
+        volumeMounts:
+          - name: mysql-test-pv
+            mountPath: /var/lib/mysql
+      volumes:
+        - name: mysql-test-pv
+          persistentVolumeClaim:
+            claimName: mysql-test-claim
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wp-deployment
+  namespace: test
+  labels:
+    tier: test
+    app: wordpress
+spec:
+  selector:
+    matchLabels:
+      tier: test
+      app: wordpress
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        tier: test
+        app: wordpress
+    spec:
+      containers:
+      - image: wordpress:latest
+        name: wp-test
+        env:
+        - name: WORDPRESS_DB_HOST
+          value: mysql-test-svc
+        - name: WORDPRESS_DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: mysql-test-secret
+              key: MYSQL_USER
+        - name: WORDPRESS_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-test-secret
+              key: MYSQL_PASSWORD
+        - name: WORDPRESS_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: mysql-test-secret
+              key: MYSQL_DATABASE
+        resources:
+          limits:
+            memory: "1Gi"
+            cpu: "250m"
+        ports:
+        - containerPort: 80
+          name: wp-test-port
+        volumeMounts:
+        - name: wp-test-pv
+          mountPath: /var/www/html
+      volumes:
+      - name: wp-test-pv
+        persistentVolumeClaim:
+          claimName: wp-test-claim
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - mysql
+            topologyKey: kubernetes.io/hostname
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-test-svc
+  namespace: test
+  labels:
+    tier: test
+spec:
+  selector:
+    tier: test
+    app: mysql
+  ports:
+  - port: 3306
+    targetPort: 3306
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wp-test-svc
+  namespace: test
+  labels:
+    tier: test
+    app: wordpress
+spec:
+  selector:
+    tier: test
+    app: wordpress
+  ports:
+  - port: 80
+    targetPort: 80

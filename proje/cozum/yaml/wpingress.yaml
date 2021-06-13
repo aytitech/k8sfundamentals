@@ -1,0 +1,41 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: wp-test-ingress
+  labels:
+    tier: test
+    app: wordpress
+  namespace: test
+spec:
+  rules:
+  - host: testblog.example.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: wp-test-svc
+            port: 
+              number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: wp-prod-ingress
+  labels:
+    tier: production
+    app: wordpress
+  namespace: production
+spec:
+  rules:
+  - host: companyblog.example.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: wp-prod-svc
+            port: 
+              number: 80

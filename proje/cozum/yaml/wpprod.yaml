@@ -1,0 +1,193 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-prod-claim
+  namespace: production
+  labels:
+    tier: production
+    app: mysql
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: wp-prod-claim
+  namespace: production
+  labels:
+    tier: production
+    app: wordpress
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-deployment
+  namespace: production
+  labels:
+    tier: production
+    app: mysql
+spec:
+  selector:
+    matchLabels:
+      tier: production
+      app: mysql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        tier: production
+        app: mysql
+    spec:
+      containers:
+      - name: mysql-prod
+        image: mysql:5.6
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-prod-secret
+              key: MYSQL_ROOT_PASSWORD
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: mysql-prod-secret
+              key: MYSQL_USER
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-prod-secret
+              key: MYSQL_PASSWORD
+        - name: MYSQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: mysql-prod-secret
+              key: MYSQL_DATABASE      
+        resources:
+          limits:
+            memory: "1Gi"
+            cpu: "250m"
+        ports:
+          - containerPort: 3306
+            name: mysql-prod-port
+        volumeMounts:
+          - name: mysql-prod-pv
+            mountPath: /var/lib/mysql
+      nodeSelector:
+        tier: production
+      volumes:
+        - name: mysql-prod-pv
+          persistentVolumeClaim:
+            claimName: mysql-prod-claim
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wp-deployment
+  namespace: production
+  labels:
+    tier: production
+    app: wordpress
+spec:
+  selector:
+    matchLabels:
+      tier: production
+      app: wordpress
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        tier: production
+        app: wordpress
+    spec:
+      containers:
+      - image: wordpress:latest
+        name: wp-prod
+        env:
+        - name: WORDPRESS_DB_HOST
+          value: mysql-prod-svc
+        - name: WORDPRESS_DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: mysql-prod-secret
+              key: MYSQL_USER
+        - name: WORDPRESS_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-prod-secret
+              key: MYSQL_PASSWORD
+        - name: WORDPRESS_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: mysql-prod-secret
+              key: MYSQL_DATABASE
+        resources:
+          limits:
+            memory: "1Gi"
+            cpu: "250m"
+        ports:
+        - containerPort: 80
+          name: wp-prod-port
+        volumeMounts:
+        - name: wp-prod-pv
+          mountPath: /var/www/html
+      nodeSelector:
+        tier: production
+      volumes:
+      - name: wp-prod-pv
+        persistentVolumeClaim:
+          claimName: wp-prod-claim
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - mysql
+            topologyKey: kubernetes.io/hostname
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-prod-svc
+  namespace: production
+  labels:
+    tier: production
+spec:
+  selector:
+    tier: production
+    app: mysql
+  ports:
+  - port: 3306
+    targetPort: 3306
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wp-prod-svc
+  namespace: production
+  labels:
+    tier: production
+    app: wordpress
+spec:
+  selector:
+    tier: production
+    app: wordpress
+  ports:
+  - port: 80
+    targetPort: 80

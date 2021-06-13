@@ -18,7 +18,7 @@
 - Her iki uygulama da aynı worker node üstünde schedule edilecek.
 - Her iki uygulama için de cpu ve memory kaynak kısıtları tanımlı olacak.  
 
-**7:** "test" namespace'inde deploy edilen wordpress uygulaması "testblog.example.com", "production" namespace'inde deploy edilen wordpress uygulaması "blog.example.com" olarak ingress üstünden dış dünyaya expose edilecek. 
+**7:** "test" namespace'inde deploy edilen wordpress uygulaması "testblog.example.com", "production" namespace'inde deploy edilen wordpress uygulaması "companyblog.example.com" olarak ingress üstünden dış dünyaya expose edilecek. 
 
 **8:** "production" namespace'inde "ozgurozturknet/k8s:v1" imajından, 5 replikalı, update stratejisi olarak aynı anda 2 pod'un update edilebileceği bir deployment oluşturun. "/healthcheck" endpoint'ini sorgulayan "liveness probe" ve "/ready" endpoint'ini sorgulayan bir "readiness probe" tanımları da olsun. 
 

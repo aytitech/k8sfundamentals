@@ -4,12 +4,16 @@
 
 
 **Key ve CSR oluşturma**
-openssl genrsa -out ozgurozturk.key 2048 
-openssl req -new -key ozgurozturk.key -out ozgurozturk.csr -subj "/CN=ozgur@ozgurozturk.net/O=DevTeam"
+```
+$ openssl genrsa -out ozgurozturk.key 2048 
 
+$ openssl req -new -key ozgurozturk.key -out ozgurozturk.csr -subj "/CN=ozgur@ozgurozturk.net/O=DevTeam"
+```
 
 **CertificateSigningRequest oluşturma**
-cat <<EOF | kubectl apply -f -
+
+```
+$ cat <<EOF | kubectl apply -f -
 apiVersion: certificates.k8s.io/v1
 kind: CertificateSigningRequest
 metadata:
@@ -22,13 +26,24 @@ spec:
   usages:
   - client auth
 EOF
+```
 
 **CSR onaylama ve crt'yi alma**
-kubectl get csr
-kubectl certificate approve ozgurozturk
-kubectl get csr ozgurozturk -o jsonpath='{.status.certificate}' | base64 -d >> ozgurozturk.crt 
+
+```
+$ kubectl get csr
+
+$ kubectl certificate approve ozgurozturk
+
+$ kubectl get csr ozgurozturk -o jsonpath='{.status.certificate}' | base64 -d >> ozgurozturk.crt 
+```
 
 **kubectl config ayarları**
-kubectl config set-credentials ozgur@ozgurozturk.net --client-certificate=ozgurozturk.crt --client-key=ozgurozturk.key
-kubectl config set-context ozgurozturk-context --cluster=minikube --user=ozgur@ozgurozturk.net
-kubectl config use-context ozgurozturk-context
+
+```
+$ kubectl config set-credentials ozgur@ozgurozturk.net --client-certificate=ozgurozturk.crt --client-key=ozgurozturk.key
+
+$ kubectl config set-context ozgurozturk-context --cluster=minikube --user=ozgur@ozgurozturk.net
+
+$ kubectl config use-context ozgurozturk-context
+```
