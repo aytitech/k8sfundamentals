@@ -87,6 +87,11 @@ spec:
             mountPath: /var/lib/mysql
       nodeSelector:
         tier: production
+      tolerations:
+      - key: "tier"
+        operator: "Equal"
+        value: "production"
+        effect: "NoSchedule"
       volumes:
         - name: mysql-prod-pv
           persistentVolumeClaim:
@@ -146,6 +151,11 @@ spec:
           mountPath: /var/www/html
       nodeSelector:
         tier: production
+      tolerations:
+      - key: "tier"
+        operator: "Equal"
+        value: "production"
+        effect: "NoSchedule"
       volumes:
       - name: wp-prod-pv
         persistentVolumeClaim:

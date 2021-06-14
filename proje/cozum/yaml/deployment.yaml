@@ -37,3 +37,10 @@ spec:
             port: 80
           initialDelaySeconds: 20
           periodSeconds: 3
+      nodeSelector:
+        tier: production
+      tolerations:
+      - key: "tier"
+        operator: "Equal"
+        value: "production"
+        effect: "NoSchedule"
