@@ -113,7 +113,7 @@ $ kubectl create secret generic mysql-prod-secret -n production --from-file=MYSQ
 
 $ kubectl apply -f ./yaml/wptest.yaml
 
-$ kubectl apply -f ./yaml/wprod.yaml
+$ kubectl apply -f ./yaml/wpprod.yaml
 ```
 
 </details>
@@ -172,8 +172,7 @@ $ kubectl set image deployment/k8s-deployment k8s=ozgurozturknet/k8s:v2 -n produ
   <summary>Çözümü görmek için tıklayınız!</summary>
 
 ```
-$ 
-
+$ kubectl apply -f ./yaml/daemonset.yaml
 ```
 
 </details>
@@ -184,7 +183,24 @@ $
   <summary>Çözümü görmek için tıklayınız!</summary>
 
 ```
-$ 
+$ kubectl apply -f ./yaml/statefulset.yaml
+
+$ kubectl exec -it mongostatefulset-0 -- bash
+
+root@mongostatefulset-0:/# mongo
+
+> rs.initiate({ _id: "MainRepSet", version: 1, 
+members: [ 
+ { _id: 0, host: "mongostatefulset-0.mongo-svc.default.svc.cluster.local:27017" }, 
+ { _id: 1, host: "mongostatefulset-1.mongo-svc.default.svc.cluster.local:27017" } ]});
+
+MainRepSet:PRIMARY> db.getSiblingDB("admin").createUser({
+...       user : "mongoadmin",
+...       pwd  : "P@ssw0rd!1",
+...       roles: [ { role: "root", db: "admin" } ]
+...  });
+
+MainRepSet:PRIMARY> rs.status();
 
 ```
 
@@ -196,7 +212,15 @@ $
   <summary>Çözümü görmek için tıklayınız!</summary>
 
 ```
-$ 
+$ kubectl apply -f ./yaml/serviceaccount.yaml
+
+$ kubectl exec -it pod-proje -- bash
+
+bash-5.0# CERT=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+
+bash-5.0# TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
+
+bash-5.0# curl --cacert $CERT https://kubernetes/api/v1/pods --header "Authorization:Bearer $TOKEN" | jq '.items[].metadata.name'
 
 ```
 
@@ -208,7 +232,11 @@ $
   <summary>Çözümü görmek için tıklayınız!</summary>
 
 ```
-$ 
+$ nodedrain=$(kubectl get no -o jsonpath="{.items[3].metadata.name}")
+
+$ kubectl drain $nodedrain --ignore-daemonsets --delete-local-data
+
+$ kubectl cordon $nodedrain
 
 ```
 
