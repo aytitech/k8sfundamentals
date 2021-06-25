@@ -10,5 +10,4 @@ $ docker network create --driver=bridge --subnet=10.255.255.0/24 --ip-range=10.2
 
 $ docker run -dit --privileged --restart unless-stopped -e SHARED_DIRECTORY=/data -v nfsvol:/data --network nfsnet -p 2049:2049 --name nfssrv ozgurozturknet/nfs:latest
 
-Ör: kubectl run firstpod --image=nginx --restart=Never
 ```
