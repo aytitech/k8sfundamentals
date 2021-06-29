@@ -24,5 +24,3 @@
 * Footloose | Vagrant but with containers | https://github.com/weaveworks/footloose
 * Kured | (KUbernetes REboot Daemon) is a daemonset that performs safe automatic node reboots when the need to do so is indicated by the package management system of the underlying OS. | https://github.com/weaveworks/kured
 * KEDA | KEDA is a Kubernetes-based Event Driven Autoscaler. With KEDA, you can drive the scaling of any container in Kubernetes based on the number of events needing to be processed. | <https://keda.sh/>
-
-## Network

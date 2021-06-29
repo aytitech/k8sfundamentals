@@ -6,7 +6,7 @@ Ayti.tech portalı olarak Türk bilişim çalışanlarının dil bariyerine tak�
 # <img src="./banner.jpg">
 
 
-##  <a href="https://ozgurozturk.net/kubernetes-temelleri">İndirimli satın almak için tıklayınız...</a>
+##  <a href="https://ayti.tech/k8s">İndirimli satın almak için tıklayınız...</a>
 
 
 
