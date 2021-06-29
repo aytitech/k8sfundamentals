@@ -112,7 +112,7 @@ spec:
         app: wordpress
     spec:
       containers:
-      - image: wordpress:latest
+      - image: wordpress:5.6
         name: wp-test
         env:
         - name: WORDPRESS_DB_HOST

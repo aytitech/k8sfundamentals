@@ -119,7 +119,7 @@ spec:
         app: wordpress
     spec:
       containers:
-      - image: wordpress:latest
+      - image: wordpress:5.6
         name: wp-prod
         env:
         - name: WORDPRESS_DB_HOST
