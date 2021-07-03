@@ -62,7 +62,7 @@ $ sudo apt-get upgrade -y
 $ sudo apt-get install containerd -y
 $ sudo mkdir -p /etc/containerd
 $ sudo su -
-$ containerd config default  /etc/containerd/config.toml
+$ containerd config default | tee /etc/containerd/config.toml
 $ exit
 $ sudo systemctl restart containerd
 ```
