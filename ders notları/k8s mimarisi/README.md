@@ -62,4 +62,4 @@ Lojistik elemanımız: network iletişimini sağlayan kube proxy component lerin
 * Kubernetes kaynakları:
 (https://cncf.io)[https://cncf.io]
 (https://kubernetes.io/docs)[https://kubernetes.io/docs]
-(https://github.com/kubernetes/kubernetes)[https://github.com/kubernetes/kubernetes]
+(https://github.com/kubernetes/kubernetes)[https://github.com/kubernetes/kubernetes] 
