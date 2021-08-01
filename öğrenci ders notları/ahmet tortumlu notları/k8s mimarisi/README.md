@@ -60,6 +60,6 @@ Lojistik elemanımız: network iletişimini sağlayan kube proxy component lerin
 * kubernetes versiyonlarının patch alma sıklığı göz önünde bulundurulduğunda kubernetes in bir versiyonunu kullanıyorsak en geç 12 ayda bir güncellenmesi gerekiyor.
 
 * Kubernetes kaynakları:
-(https://cncf.io)[https://cncf.io]
-(https://kubernetes.io/docs)[https://kubernetes.io/docs]
-(https://github.com/kubernetes/kubernetes)[https://github.com/kubernetes/kubernetes] 
+[https://cncf.io](https://cncf.io)
+[https://kubernetes.io/docs](https://kubernetes.io/docs)
+[https://github.com/kubernetes/kubernetes](https://github.com/kubernetes/kubernetes)
