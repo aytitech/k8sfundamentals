@@ -36,3 +36,24 @@ minikube stop
 ```
 komutunu kullanabilirsiniz.
 
+### pod yaşam döngüsü
+
+* kullanıcı yaml ile kubernetes cluster a api üzerinden komutu yollar,
+
+* etcd bu pod için veriyi panoya yazar,
+
+* bu aşamadan itibaren pod oluşturulmuştur ve pending aşamasına gider.
+
+* sched etcd gözlerken atanmamış bir pod görür ve uygun node u seçer ve node bilgisini pod a ekler.
+
+* Eğer pod pending te kaldıysa sched node atamamış demektir. Bunun için node üzerinde kaynak kullnaımlarını kontrol edebiliriz.
+
+* kubelet gelen pod u görür ve konteynırları oluşturmaya başlar, bunun için imajı indirir.
+
+>> Gelebilecek hata: imagePullBackOff: imaj çekilemiyor (authentication sağlanamamış veya image ismi düzgün sağlanamamış olabilir.)
+
+>> container içerisinde ana ugyulama kapanırsa container da kapanır.
+
+* container içerisinde RestartPolicy tanımlanır. Default Always, diğer seçenekler On-failure ve Never.
+
+>> CrashLoopBackOff: Pod eğer başarılı çalışmadı ve Restart Always set edildiyse, bir süre çöküş ve tekrar kaldırma sonraında sonrasında beş dakikada bir restart ederken CrashLoopBackOff state ine gelir.
