@@ -10,5 +10,4 @@ kubextl config #sub command leri gösterir
 kubectl config get-contexts # mevcut contextleri listeler
 kubectl config current-context #kullanılan context i söyler
 kubectl config use-context "minikube" #minikube context ini kullan diyoruz
-
-
+```
