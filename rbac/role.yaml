@@ -6,4 +6,4 @@ metadata:
 rules:
 - apiGroups: [""] # "" indicates the core API group
   resources: ["pods"] # "services", "endpoints", "pods", "pods/log" etc.
-  verbs: ["get", "watch", "list"] # "get", "list", "watch", "create", "update", "patch", "delete"
+  verbs: ["get", "watch", "list"] # "get", "list", "watch", "post", "put" "create", "update", "patch", "delete"
