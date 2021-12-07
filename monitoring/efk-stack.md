@@ -1,0 +1,1 @@
+# Elasticksearch Fluentd Kibana stack
