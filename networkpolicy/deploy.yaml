@@ -1,0 +1,124 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: ns-a
+  labels:
+    team: a
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: ns-b
+  labels:
+    team: b
+---
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: ns-c
+  labels:
+    team: c
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: poda
+  namespace: ns-a
+  labels:
+    team: a
+spec:
+  containers:
+  - name: containera
+    image: ozgurozturknet/k8s:v1
+    ports:
+    - containerPort: 80
+    livenessProbe:
+      httpGet:
+        path: /healthcheck
+        port: 80
+      initialDelaySeconds: 5
+      periodSeconds: 5
+    readinessProbe:
+      httpGet:
+        path: /ready
+        port: 80
+      initialDelaySeconds: 20
+      periodSeconds: 3
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: podb
+  namespace: ns-b
+  labels:
+    team: b
+spec:
+  containers:
+  - name: containerb
+    image: ozgurozturknet/k8s:v1
+    ports:
+    - containerPort: 80
+    livenessProbe:
+      httpGet:
+        path: /healthcheck
+        port: 80
+      initialDelaySeconds: 5
+      periodSeconds: 5
+    readinessProbe:
+      httpGet:
+        path: /ready
+        port: 80
+      initialDelaySeconds: 20
+      periodSeconds: 3
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: podc
+  namespace: ns-c
+  labels:
+    team: c
+spec:
+  containers:
+  - name: containerc
+    image: ozgurozturknet/k8s:v1
+    ports:
+    - containerPort: 80
+    livenessProbe:
+      httpGet:
+        path: /healthcheck
+        port: 80
+      initialDelaySeconds: 5
+      periodSeconds: 5
+    readinessProbe:
+      httpGet:
+        path: /ready
+        port: 80
+      initialDelaySeconds: 20
+      periodSeconds: 3
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: frontend
+  namespace: ns-a
+  labels:
+    app: frontend
+spec:
+  containers:
+  - name: frontend
+    image: ozgurozturknet/k8s:v1
+    ports:
+    - containerPort: 80
+    livenessProbe:
+      httpGet:
+        path: /healthcheck
+        port: 80
+      initialDelaySeconds: 5
+      periodSeconds: 5
+    readinessProbe:
+      httpGet:
+        path: /ready
+        port: 80
+      initialDelaySeconds: 20
+      periodSeconds: 3

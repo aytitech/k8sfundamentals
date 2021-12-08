@@ -1,0 +1,34 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: networkpolicy-example
+  namespace: ns-a
+spec:
+  podSelector:
+    matchLabels:
+      team: a
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - ipBlock:
+        cidr: 10.11.0.0/16
+        except:
+        - 10.11.1.0/24
+    - namespaceSelector:
+        matchLabels:
+          team: b
+    - podSelector:
+        matchLabels:
+          app: frontend
+    ports:
+    - protocol: TCP
+      port: 80
+  egress:
+  - to:
+    - ipBlock:
+        cidr: 1.1.1.1/32
+    ports:
+    - protocol: TCP
+      port: 80
