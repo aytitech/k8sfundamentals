@@ -19,7 +19,7 @@ $ kubectl apply -f deploy.yaml
 $ kubectl apply -f policy.yaml
 ```
 
-* Poda'ya bağlan ve sadece 1.1.1.1'e 80 portundan gidebildiğini başka yere gidemediğini teyit et
+* Poda'ya bağlan ve sadece 1.1.1.1'e 80 portuna gidebildiğini başka yere gidemediğini teyit et
 
 ```
 $ kubectl exec -it -n ns-a poda -- bash
