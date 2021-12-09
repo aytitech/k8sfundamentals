@@ -49,7 +49,7 @@ partitioned roll out complete: 3 new pods have been updated...
 * Elasticsearch'un düzgün çalıştığını kontrol et.
 
 ```
-$ kubectl port-forward svc/elasticsearch-master 9200:9200 --namespace=efk
+$ kubectl port-forward svc/elasticsearch 9200:9200 --namespace=efk
 ```
 
 ```
