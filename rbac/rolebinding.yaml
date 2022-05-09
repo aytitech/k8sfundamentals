@@ -5,7 +5,7 @@ metadata:
   namespace: default
 subjects:
 - kind: User
-  name: ozgur@ozgurozturk.net # "name" is case sensitive
+  name: ozgur@ozgurozturk.net # "name" is case-sensitive
   apiGroup: rbac.authorization.k8s.io
 roleRef:
   kind: Role #this must be Role or ClusterRole

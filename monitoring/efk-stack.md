@@ -1,4 +1,4 @@
-# Elasticksearch Fluentd Kibana stack
+# Elasticsearch Fluentd Kibana stack
 ---- https://github.com/elastic/helm-charts
 
 ---- https://www.digitalocean.com/community/tutorials/how-to-set-up-an-elasticsearch-fluentd-and-kibana-efk-logging-stack-on-kubernetes
@@ -30,7 +30,7 @@ $ kubectl apply -f testpod.yaml
 $ kubectl create namespace efk
 ```
 
-* elastichsearch deploy et
+* elasticsearch deploy et
   
 ```
 $ kubectl apply -f elastic.yaml
@@ -118,7 +118,7 @@ $ kubectl apply -f testpod.yaml
 $ kubectl create namespace efk
 ```
 
-* elastichsearch deploy et
+* elasticsearch deploy et
   
 ```
 $ helm repo add elastic https://helm.elastic.co

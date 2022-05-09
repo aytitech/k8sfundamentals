@@ -5,4 +5,4 @@ metadata:
 spec:
   containers:
   - name: imageerrorcontainer
-    image: enignx
+    image: nginx
