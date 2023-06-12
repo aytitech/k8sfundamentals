@@ -4,7 +4,7 @@
 Minikube:
 
 ```
-$ minikube start --node=5
+$ minikube start --nodes=5
 ```
 
 AKS:
